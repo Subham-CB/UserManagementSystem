@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: userdashboard-postgres
+    environment:
+      POSTGRES_DB: Users_db
+      POSTGRES_USER: userdashboard_user
+      POSTGRES_PASSWORD: userdashboard_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - userdashboard-network
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U userdashboard_user"]
+      timeout: 20s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: userdashboard-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/Users_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: userdashboard_user
+      SPRING_DATASOURCE_PASSWORD: userdashboard_user
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - userdashboard-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  userdashboard-network:
+    driver: bridge
+
+
