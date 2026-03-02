@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User - Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-primary">User Portal</h2>
+                        <p class="text-muted">Create your account to continue</p>
+                    </div>
+
+
+                    <div th:if="${message}" class="alert alert-success" role="alert">
+                        <span th:text = "${message}}"></span>
+                        Please <a th:href="@{/login}">login</a> to continue.
+                    </div>
+
+
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        <span th:text="${param.error[0]}">Registration failed. Please try again.</span>
+                    </div>
+
+                    <form th:action="@{/register}" method="post" th:object="${user}">
+
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+                        <p class="mb-2"><strong>Please correct the following errors:</strong></p>
+                        <ul class="mb-0">
+                            <li th:each="error : ${#fields.errors('*')}" th:text="${error}"></li>
+                        </ul>
+                    </div>
+
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName"
+                                   th:field="*{firstName}"
+                                   placeholder="Enter first name" required>
+                            <small class="text-danger" th:if="${#fields.hasErrors('firstName')}"
+                                   th:errors="*{firstName}"></small>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName"
+                                   th:field="*{lastName}"
+                                   placeholder="Enter last name" required>
+                            <small class="text-danger" th:if="${#fields.hasErrors('lastName')}"
+                                   th:errors="*{lastName}"></small>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userName"
+                                   th:field="*{userName}"
+                                   placeholder="Enter email" required>
+                            <small class="text-danger" th:if="${#fields.hasErrors('userName')}"
+                                   th:errors="*{userName}"></small>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password"
+                                   th:field="*{password}"
+                                   placeholder="Enter password (min 8 characters)" required>
+                            <small class="text-danger" th:if="${#fields.hasErrors('password')}"
+                                   th:errors="*{password}"></small>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword"
+                                   name="confirmPassword"
+                                   placeholder="Re-enter password" required>
+                            <small class="text-danger" id="passwordMatch"></small>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="registerBtn">Create Account</button>
+                        </div>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <p class="mb-0 text-muted">Already have an account?</p>
+                        <a th:href="@{/login}" class="fw-bold text-decoration-none">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Password Match Validation Script -->
+<script>
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const passwordMatchError = document.getElementById('passwordMatch');
+    const registerBtn = document.getElementById('registerBtn');
+
+    function validatePasswordMatch() {
+        if (passwordInput.value && confirmPasswordInput.value) {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                passwordMatchError.textContent = 'Passwords do not match';
+                registerBtn.disabled = true;
+            } else {
+                passwordMatchError.textContent = '';
+                registerBtn.disabled = false;
+            }
+        }
+    }
+
+    passwordInput.addEventListener('input', validatePasswordMatch);
+    confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+</script>
+</body>
+</html>
