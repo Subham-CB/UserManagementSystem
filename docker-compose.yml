@@ -28,9 +28,9 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: default
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/Users_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/Users_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: userdashboard_user
-      SPRING_DATASOURCE_PASSWORD: userdashboard_user
+      SPRING_DATASOURCE_PASSWORD: userdashboard_password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       postgres:
