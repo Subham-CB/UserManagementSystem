@@ -86,7 +86,11 @@ src/
 │       └── application-dev.properties      # Development configuration (H2)
 └── test/
     └── java/za/co/userdashboard/
-        ├── AppUserServiceImplTest.java     # Unit tests for UserServiceImpl
+        ├── controller/
+        │   ├── UserControllerTest.java     # MockMvc tests for UserController (/user/fetch)
+        │   └── WebControllerTest.java      # MockMvc tests for WebController (login, register, dashboard)
+        ├── service/
+        │   └── AppUserServiceImplTest.java # Unit tests for UserServiceImpl
         └── UserdashboardApplicationTests.java  # Spring context smoke test
 ```
 
@@ -219,5 +223,7 @@ Tests use the **H2 in-memory database** automatically (via the `dev` profile or 
 
 | Test Class | Coverage |
 |---|---|
-| `AppUserServiceImplTest` | Unit tests for `createUser()` and `getAllUsers()` using Mockito |
+| `controller/UserControllerTest` | MockMvc tests for `GET /user/fetch`: authenticated user returns user list, empty list returns empty array |
+| `controller/WebControllerTest` | MockMvc tests for login page, register page, registration (valid data, password mismatch, blank fields, short password, duplicate user), and authenticated dashboard |
+| `service/AppUserServiceImplTest` | Unit tests for `createUser()`, `getUser()` (found and not found), and `getAllUsers()` (with results and empty) using Mockito |
 | `UserdashboardApplicationTests` | Spring application context smoke test |
