@@ -19,6 +19,17 @@ services:
       timeout: 20s
       retries: 10
 
+  localstack:
+    image: localstack/localstack:latest
+    container_name: userdashboard-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      DEBUG: 0
+    networks:
+      - userdashboard-network
+
   app:
     build:
       context: .
@@ -35,6 +46,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      localstack:
+        condition: service_started
     networks:
       - userdashboard-network
     restart: unless-stopped
