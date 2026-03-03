@@ -69,10 +69,10 @@ public class WebController {
             try {
                 profileImageKey = profileImageService.uploadProfileImage(profileImage);
             } catch (IllegalArgumentException e) {
-                bindingResult.rejectValue("userName", "error.user", "Invalid profile image. Use JPEG, PNG, GIF or WebP.");
+                bindingResult.rejectValue("profileImage", "error.user", "Invalid profile image. Use JPEG, PNG, GIF or WebP.");
                 return "register";
             } catch (Exception e) {
-                bindingResult.rejectValue("userName", "error.user", "Failed to upload profile image. Please try again.");
+                bindingResult.rejectValue("profileImage", "error.user", "Failed to upload profile image. Please try again.");
                 return "register";
             }
         }

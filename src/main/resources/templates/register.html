@@ -92,6 +92,8 @@
                             <input type="file" class="form-control" id="profileImage" name="profileImage"
                                    accept="image/jpeg,image/png,image/gif,image/webp">
                             <small class="text-muted">JPEG, PNG, GIF or WebP. Max 5MB.</small>
+                            <small class="text-danger" th:if="${#fields.hasErrors('profileImage')}"
+                                   th:errors="*{profileImage}"></small>
                         </div>
 
                         <div class="d-grid">
