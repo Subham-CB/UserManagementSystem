@@ -14,7 +14,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="#">User Portal</a>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center gap-2">
+            <th:block th:if="${user.profileImageKey != null}">
+                <img th:if="${user.profileImageUrl != null and #strings.startsWith(user.profileImageUrl, 'http')}" th:src="${user.profileImageUrl}" alt="Profile" class="rounded-circle border border-2 border-white"
+                     style="width: 36px; height: 36px; object-fit: cover;">
+                <img th:unless="${user.profileImageUrl != null and #strings.startsWith(user.profileImageUrl, 'http')}" th:src="@{/profile-image(key=${user.profileImageKey})}" alt="Profile" class="rounded-circle border border-2 border-white"
+                     style="width: 36px; height: 36px; object-fit: cover;">
+            </th:block>
+            <th:block th:unless="${user.profileImageKey != null}">
+                <div class="rounded-circle border border-2 border-white bg-white bg-opacity-25 d-flex align-items-center justify-content-center text-white fw-bold"
+                     style="width: 36px; height: 36px; font-size: 0.85rem;" th:text="${#strings.substring(user.firstName,0,1)} + ${#strings.substring(user.lastName,0,1)}">JD</div>
+            </th:block>
             <span class="text-white me-3">
                 Welcome, <strong th:text="${user.firstName} + ' ' + ${user.lastName}">User</strong>
             </span>
@@ -45,14 +55,28 @@
                     <h5 class="mb-0">User Profile</h5>
                 </div>
                 <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h6 class="text-muted">First Name</h6>
-                            <p class="fs-5 fw-bold" th:text="${user.firstName}">John</p>
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-auto" th:if="${user.profileImageKey != null}">
+                            <img th:if="${user.profileImageUrl != null and #strings.startsWith(user.profileImageUrl, 'http')}" th:src="${user.profileImageUrl}" alt="Profile" class="rounded-circle shadow"
+                                 style="width: 96px; height: 96px; object-fit: cover;">
+                            <img th:unless="${user.profileImageUrl != null and #strings.startsWith(user.profileImageUrl, 'http')}" th:src="@{/profile-image(key=${user.profileImageKey})}" alt="Profile" class="rounded-circle shadow"
+                                 style="width: 96px; height: 96px; object-fit: cover;">
                         </div>
-                        <div class="col-md-6">
-                            <h6 class="text-muted">Last Name</h6>
-                            <p class="fs-5 fw-bold" th:text="${user.lastName}">Doe</p>
+                        <div class="col-auto" th:unless="${user.profileImageKey != null}">
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+                                 style="width: 96px; height: 96px; font-size: 2rem;" th:text="${#strings.substring(user.firstName,0,1)} + ${#strings.substring(user.lastName,0,1)}">JD</div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">First Name</h6>
+                                    <p class="fs-5 fw-bold" th:text="${user.firstName}">John</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">Last Name</h6>
+                                    <p class="fs-5 fw-bold" th:text="${user.lastName}">Doe</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

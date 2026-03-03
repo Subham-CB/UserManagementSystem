@@ -1,7 +1,6 @@
 package za.co.userdashboard.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 public class AppUser {
 
     @Id
@@ -29,6 +27,10 @@ public class AppUser {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "profile_photo_url", nullable = true)
-    private String profilePhotoUrl;
+    /**
+     * S3 object key for profile image (e.g. profiles/uuid-filename.jpg).
+     * Full URL is built using app.s3.public-base-url + key when serving to browser.
+     */
+    @Column(name = "profile_image_key", length = 512)
+    private String profileImageKey;
 }

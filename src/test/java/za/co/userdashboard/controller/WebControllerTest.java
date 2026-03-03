@@ -11,6 +11,7 @@ import za.co.userdashboard.config.SecurityConfig;
 import za.co.userdashboard.dto.UserResponseDTO;
 import za.co.userdashboard.exception.UserAlreadyExistsException;
 import za.co.userdashboard.security.CustomerUserDetailsService;
+import za.co.userdashboard.service.ProfileImageService;
 import za.co.userdashboard.service.UserService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +31,9 @@ class WebControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private ProfileImageService profileImageService;
 
     @MockitoBean
     private CustomerUserDetailsService customerUserDetailsService;
@@ -59,7 +63,7 @@ class WebControllerTest {
         response.setLastName("Doe");
         response.setUserName("john@example.com");
 
-        when(userService.createUser(any())).thenReturn(response);
+        when(userService.createUser(any(), any())).thenReturn(response);
 
         mockMvc.perform(post("/register")
                         .with(csrf())
@@ -113,7 +117,7 @@ class WebControllerTest {
 
     @Test
     void postRegister_userAlreadyExists_returnsRegisterViewWithError() throws Exception {
-        when(userService.createUser(any()))
+        when(userService.createUser(any(), any()))
                 .thenThrow(new UserAlreadyExistsException("This email is already taken"));
 
         mockMvc.perform(post("/register")
