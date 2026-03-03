@@ -48,7 +48,7 @@ public class AppUserServiceImplTest {
         when(userRepository.save(any(AppUser.class))).thenReturn(savedAppUser);
         when(modelMapper.map(any(AppUser.class),eq(UserResponseDTO.class))).thenReturn(expectedResponse);
 
-        UserResponseDTO actualResponse = userService.createUser(newUser);
+        UserResponseDTO actualResponse = userService.createUser(newUser, null);
 
         assertNotNull(actualResponse);
         assertEquals("John",actualResponse.getFirstName());
