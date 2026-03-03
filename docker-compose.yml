@@ -15,7 +15,7 @@ services:
     networks:
       - userdashboard-network
     healthcheck:
-      test: ["CMD-SHELL","pg_isready -U userdashboard_user"]
+      test: ["CMD-SHELL","pg_isready -U userdashboard_user -d Users_db"]
       timeout: 20s
       retries: 10
 
@@ -43,6 +43,10 @@ services:
       SPRING_DATASOURCE_USERNAME: userdashboard_user
       SPRING_DATASOURCE_PASSWORD: userdashboard_password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # LocalStack S3 for profile images
+      APP_S3_ENDPOINT_OVERRIDE: http://localstack:4566
+      APP_S3_BUCKET_NAME: userdashboard-profiles
+      APP_S3_REGION: us-east-1
     depends_on:
       postgres:
         condition: service_healthy
