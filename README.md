@@ -58,7 +58,10 @@ src/
 │   │   ├── UserdashboardApplication.java   # Application entry point
 │   │   ├── config/
 │   │   │   ├── MapperConfig.java           # ModelMapper bean
-│   │   │   └── SwaggerConfig.java          # OpenAPI/Swagger configuration
+│   │   │   ├── SwaggerConfig.java          # OpenAPI/Swagger configuration
+│   │   │   ├── SecurityConfig.java         # Security rules, login/logout setup
+│   │   │   ├── S3Config.java               #Configuration of S3 service for storage of image.
+│   │   │   └── S3BucketInitializer.java    #Intialising the S3 bucket
 │   │   ├── controller/
 │   │   │   ├── UserController.java         # REST API controller (/user)
 │   │   │   └── WebController.java          # MVC controller (login, register, dashboard)
@@ -73,11 +76,14 @@ src/
 │   │   ├── repository/
 │   │   │   └── UserRepository.java        # JPA repository with findByUserName()
 │   │   ├── security/
-│   │   │   ├── CustomerUserDetailsService.java  # Loads user from DB for Spring Security
-│   │   │   └── SecurityConfig.java              # Security rules, login/logout setup
+│   │   │   └── CustomerUserDetailsService.java  # Loads user from DB for Spring Security
+│   │   │   
 │   │   └── service/
-│   │       ├── UserService.java            # Service interface
-│   │       └── UserServiceImpl.java        # Service implementation
+│   │       ├── UserService.java                # Service interface
+│   │       ├── UserServiceImpl.java            # Service implementation
+│   │       ├── ProfileImageService.java        # ProfileImage interface
+│   │       ├── ProfileImageServiceImpl.java    # ProfileImage implementation
+│   │       └── ImageStreamResult.java          # ImageStreamResult
 │   └── resources/
 │       ├── templates/
 │       │   ├── login.html                  # Login page (Thymeleaf)
@@ -105,10 +111,10 @@ src/
 - **Maven 3.9+** (or use the included `mvnw` wrapper)
 - **Docker & Docker Compose** (for containerised setup)
 - **PostgreSQL 16** (if running without Docker)
+- **LocalStack** (if running without Docker)
 
 ### Running Locally (with Docker Compose)
 
-This is the easiest way to run the full stack:
 
 ```bash
 docker-compose up --build
@@ -133,23 +139,29 @@ docker-compose down
 
 2. **Update `src/main/resources/application.properties`** with your database credentials if they differ from the defaults.
 
-3. **Build and run** the application:
+3. **Start the LocalStack 'localstack start'**
 
 ```bash
-./mvnw spring-boot:run
+ localstack start
+```
+
+4. **Build and run** the application:
+
+```bash
+ ./mvnw spring-boot:run
 ```
 
 Or build the JAR and run it directly:
 
 ```bash
-./mvnw clean package -DskipTests
-java -jar target/userdashboard-0.0.1-SNAPSHOT.jar
+ ./mvnw clean package -DskipTests
+ java -jar target/userdashboard-0.0.1-SNAPSHOT.jar
 ```
 
-4. **For development** (uses H2 in-memory database – no PostgreSQL needed):
+5. **For development** (uses H2 in-memory database – no PostgreSQL needed):
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+ ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 The H2 console is available at [http://localhost:8080/h2-console](http://localhost:8080/h2-console) in dev mode.
@@ -158,7 +170,9 @@ The H2 console is available at [http://localhost:8080/h2-console](http://localho
 
 ## Configuration
 
-### `application.properties` (production – PostgreSQL)
+### `application.properties` 
+
+
 
 | Property | Default Value |
 |---|---|
@@ -172,7 +186,7 @@ The H2 console is available at [http://localhost:8080/h2-console](http://localho
 | `app.s3.endpoint-override` | *(empty = real AWS)* Set to `http://localhost:4566` for LocalStack |
 | `app.s3.public-base-url` | *(optional)* If set, profile image URLs use this base; otherwise the app proxies images at `/profile-image?key=...` |
 
-### `application-dev.properties` (development – H2)
+### `application-dev.properties` 
 
 Uses an H2 in-memory database with `create-drop` DDL mode. The H2 console is enabled for easy inspection.
 
@@ -220,7 +234,7 @@ Uses an H2 in-memory database with `create-drop` DDL mode. The H2 console is ena
 Run all tests with:
 
 ```bash
-./mvnw test
+ ./mvnw test
 ```
 
 Tests use the **H2 in-memory database** automatically (via the `dev` profile or test configuration), so no external database is needed.
@@ -231,3 +245,18 @@ Tests use the **H2 in-memory database** automatically (via the `dev` profile or 
 | `controller/WebControllerTest` | MockMvc tests for login page, register page, registration (valid data, password mismatch, blank fields, short password, duplicate user), and authenticated dashboard |
 | `service/AppUserServiceImplTest` | Unit tests for `createUser()`, `getUser()` (found and not found), and `getAllUsers()` (with results and empty) using Mockito |
 | `UserdashboardApplicationTests` | Spring application context smoke test |
+
+---
+
+## 📝 License
+
+This project is created for educational purposes.
+
+---
+
+## 👨‍💻 Author
+
+**Subham Dey**
+
+For questions or support, please contact: de.subham1@gmail.com
+
