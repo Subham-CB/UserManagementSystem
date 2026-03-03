@@ -33,19 +33,20 @@ A **Spring Boot** web application that provides user registration, authenticatio
 
 ## Technology Stack
 
-| Layer | Technology |
-|---|---|
-| Language | Java 21 |
-| Framework | Spring Boot 4.0.3 |
-| Web | Spring MVC + Thymeleaf |
-| Security | Spring Security 6 (BCrypt) |
-| Persistence | Spring Data JPA + PostgreSQL |
-| Testing DB | H2 (in-memory) |
-| Object Mapping | ModelMapper 3.2.4 |
-| API Docs | SpringDoc OpenAPI 2.7.0 |
-| Build | Maven (mvnw wrapper included) |
-| Containerization | Docker + Docker Compose |
-| Local AWS Emulation | LocalStack (S3) |
+| Layer               | Technology                    |
+|---------------------|-------------------------------|
+| Language            | Java 21                       |
+| Framework           | Spring Boot 4.0.3             |
+| Web                 | Spring MVC + Thymeleaf        |
+| Security            | Spring Security 6 (BCrypt)    |
+| Persistence         | Spring Data JPA + PostgreSQL  |
+| Testing DB          | H2 (in-memory)                |
+| Object Mapping      | ModelMapper 3.2.4             |
+| API Docs            | SpringDoc OpenAPI 2.7.0       |
+| Build               | Maven (mvnw wrapper included) |
+| Containerization    | Docker + Docker Compose       |
+| Local AWS Emulation | LocalStack (S3)               |
+| Postman             | Testing                       |
 
 ---
 
