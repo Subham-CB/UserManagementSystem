@@ -44,6 +44,7 @@ A **Spring Boot** web application that provides user registration, authenticatio
 | API Docs | SpringDoc OpenAPI 2.7.0 |
 | Build | Maven (mvnw wrapper included) |
 | Containerization | Docker + Docker Compose |
+| Local AWS Emulation | LocalStack (S3) |
 
 ---
 
@@ -110,6 +111,7 @@ docker-compose up --build
 
 This starts:
 - A **PostgreSQL 16** container (`userdashboard-postgres`) on port `5432`
+- A **LocalStack** container (`userdashboard-localstack`) on port `4566`, emulating AWS S3 locally
 - The **application** container (`userdashboard-app`) on port `8080`
 
 Open your browser at [http://localhost:8080/login](http://localhost:8080/login).
