@@ -26,4 +26,11 @@ public class AppUser {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    /**
+     * S3 object key for profile image (e.g. profiles/uuid-filename.jpg).
+     * Full URL is built using app.s3.public-base-url + key when serving to browser.
+     */
+    @Column(name = "profile_image_key", length = 512)
+    private String profileImageKey;
 }

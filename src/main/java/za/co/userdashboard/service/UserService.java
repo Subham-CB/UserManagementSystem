@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface UserService {
 
-    UserResponseDTO createUser(UserCreationDTO userCreationDTO);
+    /**
+     * Create a new user. Profile image key may be null if no image was uploaded.
+     */
+    UserResponseDTO createUser(UserCreationDTO userCreationDTO, String profileImageKey);
 
     UserResponseDTO getUser(String userName);
 

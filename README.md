@@ -22,9 +22,10 @@ A **Spring Boot** web application that provides user registration, authenticatio
 
 ## Features
 
-- **User Registration** – Form-based sign-up with first name, last name, username, and password (8–20 characters). Duplicate usernames are rejected gracefully.
+- **User Registration** – Form-based sign-up with first name, last name, username, password (8–20 characters), and optional profile image upload. Duplicate usernames are rejected gracefully.
 - **User Authentication** – Form login backed by Spring Security and BCrypt password hashing.
-- **User Dashboard** – Authenticated users can view their profile information after logging in.
+- **Profile Images** – Optional JPEG/PNG/GIF/WebP upload during registration; stored in S3 (or LocalStack when using Docker). Dashboard shows profile photo or initials.
+- **User Dashboard** – Authenticated users can view their profile information (and profile image) after logging in.
 - **REST API** – Fetch all registered users (returns data without passwords).
 - **API Documentation** – Interactive Swagger UI available at `/swagger-ui/index.html`.
 
@@ -115,8 +116,8 @@ docker-compose up --build
 
 This starts:
 - A **PostgreSQL 16** container (`userdashboard-postgres`) on port `5432`
-- A **LocalStack** container (`userdashboard-localstack`) on port `4566`, emulating AWS S3 locally
-- The **application** container (`userdashboard-app`) on port `8080`
+- A **LocalStack** container (`userdashboard-localstack`) on port `4566`, emulating AWS S3 for profile image storage
+- The **application** container (`userdashboard-app`) on port `8080` (configured to use LocalStack S3 via `APP_S3_ENDPOINT_OVERRIDE`)
 
 Open your browser at [http://localhost:8080/login](http://localhost:8080/login).
 
@@ -167,6 +168,9 @@ The H2 console is available at [http://localhost:8080/h2-console](http://localho
 | `spring.datasource.password` | `userdashboard_password` |
 | `spring.jpa.hibernate.ddl-auto` | `update` |
 | `spring.thymeleaf.cache` | `false` |
+| `app.s3.bucket-name` | `userdashboard-profiles` |
+| `app.s3.endpoint-override` | *(empty = real AWS)* Set to `http://localhost:4566` for LocalStack |
+| `app.s3.public-base-url` | *(optional)* If set, profile image URLs use this base; otherwise the app proxies images at `/profile-image?key=...` |
 
 ### `application-dev.properties` (development – H2)
 

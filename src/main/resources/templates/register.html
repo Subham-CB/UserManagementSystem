@@ -20,7 +20,7 @@
 
 
                     <div th:if="${message}" class="alert alert-success" role="alert">
-                        <span th:text = "${message}}"></span>
+                        <span th:text="${message}"></span>
                         Please <a th:href="@{/login}">login</a> to continue.
                     </div>
 
@@ -29,7 +29,7 @@
                         <span th:text="${param.error[0]}">Registration failed. Please try again.</span>
                     </div>
 
-                    <form th:action="@{/register}" method="post" th:object="${user}">
+                    <form th:action="@{/register}" method="post" th:object="${user}" enctype="multipart/form-data">
 
                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
                         <p class="mb-2"><strong>Please correct the following errors:</strong></p>
@@ -84,6 +84,14 @@
                                    name="confirmPassword"
                                    placeholder="Re-enter password" required>
                             <small class="text-danger" id="passwordMatch"></small>
+                        </div>
+
+                        <!-- Profile Image (optional) -->
+                        <div class="mb-3">
+                            <label for="profileImage" class="form-label">Profile Image (optional)</label>
+                            <input type="file" class="form-control" id="profileImage" name="profileImage"
+                                   accept="image/jpeg,image/png,image/gif,image/webp">
+                            <small class="text-muted">JPEG, PNG, GIF or WebP. Max 5MB.</small>
                         </div>
 
                         <div class="d-grid">
