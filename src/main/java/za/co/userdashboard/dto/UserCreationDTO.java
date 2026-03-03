@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -20,4 +21,5 @@ public class UserCreationDTO {
     @Size(min=8,max = 20,message = "Enter Password with length 8-20")
     @NotBlank(message = "Password can not be blank")
     private String password;
+    private MultipartFile profilePhoto;
 }

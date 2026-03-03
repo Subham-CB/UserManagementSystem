@@ -1,6 +1,7 @@
 package za.co.userdashboard.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class AppUser {
 
     @Id
@@ -26,4 +28,7 @@ public class AppUser {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "profile_photo_url", nullable = true)
+    private String profilePhotoUrl;
 }
