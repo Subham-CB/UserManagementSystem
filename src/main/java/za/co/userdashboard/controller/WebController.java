@@ -2,9 +2,7 @@ package za.co.userdashboard.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import za.co.userdashboard.service.ImageStreamResult;
 import za.co.userdashboard.dto.UserCreationDTO;
 import za.co.userdashboard.dto.UserResponseDTO;
-import za.co.userdashboard.entity.AppUser;
 import za.co.userdashboard.exception.UserAlreadyExistsException;
 import za.co.userdashboard.service.ProfileImageService;
 import za.co.userdashboard.service.UserService;
